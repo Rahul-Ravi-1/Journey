@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-function CharacterXPTracker() {
+function XPDashboard() {
   // 🧠 State for XP and Level
   const [xp, setXP] = useState(0);
   const [level, setLevel] = useState(0);
@@ -46,4 +46,4 @@ function CharacterXPTracker() {
   );
 }
 
-export default CharacterXPTracker;
+export default XPDashboard;
