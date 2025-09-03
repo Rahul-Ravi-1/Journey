@@ -4,6 +4,7 @@ import XPDashboard from "./components/XPDashboard";
 import JournalScreen from "./components/JournalScreen";
 import Quests from "./components/Quests";
 import FuelLog from "./components/FuelLog";
+import BottomNav from "./components/BottomNav";
 function App() {
   const [screen, setScreen] = useState("intro"); // 🔁 controls intro vs. dashboard
 
@@ -21,32 +22,26 @@ function App() {
       {screen === "dashboard" && (
         <div className="dashboard-screen">
           <XPDashboard />
-          <button onClick={() => setScreen("quests")}>Go to Quests</button>
-          <button onClick={() => setScreen("journal")}>Go to Journal</button>
-          <button onClick={() => setScreen("fuel")}>Go to Fuel Log</button>
         </div>
       )}
 
       {screen === "quests" && (
         <div className="quests-screen">
           <Quests />
-          <button onClick={() => setScreen("dashboard")}>Back to Dashboard</button>
         </div>
       )}
       {screen === "journal" && (
         <div className="journal-screen">
           <JournalScreen />
-          <button onClick={() => setScreen("dashboard")}>Back to Dashboard</button>
         </div>
       )}
       {screen === "fuel" && (
         <div className="fuel-screen">
           <FuelLog />
-          <button onClick={() => setScreen("dashboard")}>Back to Dashboard</button>
         </div>
       )}
+         {screen !== "intro" && <BottomNav screen={screen} setScreen={setScreen} />}
     </div>
-
   );
 }
 export default App;

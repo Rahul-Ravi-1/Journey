@@ -12,7 +12,7 @@ html, body, #root {
   justify-content: center;
   align-items: center;
   text-align: center;
-  background-color: black;
+  background-color: #000814;
   overflow: hidden;
 }
 
@@ -47,7 +47,36 @@ html, body, #root {
   opacity: 0;
   cursor: pointer;
 }
+.bottom-nav
+{
+  position: fixed;          /* pin it to viewport */
+  bottom: 0; left: 0; right: 0; /* stick to bottom across full width */
+  display: flex;            /* flexbox layout */
+  justify-content: space-around; /* space items evenly with gaps on edges */
+  align-items: center;      /* center icons vertically */
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.6); /* translucent dark background */
+  z-index: 1000;            /* make sure it sits on top of content */
+}
+.nav-item {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  color: white;
+  background: transparent;
+  border: 2px solid transparent; /* keeps size stable */
+  border-radius: 8px;
+  cursor: pointer;
+  transition: border-color 0.2s, background-color 0.2s;
+}
 
+.nav-item.active {
+  border-color: white;
+  background: rgba(255,255,255,0.1);
+}
 /* Animations */
 @keyframes fadeInTop {
   0% {

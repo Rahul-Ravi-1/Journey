@@ -1,49 +1,43 @@
 :root {
   --font-press-start: 'Press Start 2P', monospace;
   --font-vt323: 'VT323', monospace;
+  /* App-wide dark theme */
+  color-scheme: dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #000814; /* unified deep navy canvas */
+
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-.font-press {
-  font-family: var(--font-press-start);
-}
+/* font utilities */
+.font-press { font-family: var(--font-press-start); }
+.font-vt323 { font-family: var(--font-vt323); }
 
-.font-vt323 {
-  font-family: var(--font-vt323);
-}
+/* links */
+a { font-weight: 500; color: #646cff; text-decoration: inherit; }
+a:hover { color: #535bf2; }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
+/* base layout */
+html, body, #root { height: 100%; }
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
+  /* use normal flow; avoid centering everything from body */
+  display: block;
   min-width: 320px;
   min-height: 100vh;
+  background-color: #000814; /* reinforce canvas */
+  color: rgba(255, 255, 255, 0.87);
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
+/* headings */
+h1 { font-size: 3.2em; line-height: 1.1; }
 
+/* default button (we'll style pixel-box later) */
 button {
   border-radius: 8px;
   border: 1px solid transparent;
@@ -55,23 +49,6 @@ button {
   cursor: pointer;
   transition: border-color 0.25s;
 }
-button:hover {
-  border-color: #646cff;
-}
+button:hover { border-color: #646cff; }
 button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
-}
+button:focus-visible { outline: 4px auto -webkit-focus-ring-color; }
