@@ -1,8 +1,13 @@
+import QuestPanel from "./QuestPanel";
+
 export default function Quests() {
-    return (
-      <div className="screen">
-        <h1>Quests</h1>
-        <p>This is where your daily quests and challenges will go.</p>
+  return (
+    <div className="screen xp-container">
+      <div className="xp-grid">
+        <div className="panel-quests">
+          <QuestPanel title="Main Quests" category="main" />
+        </div>
       </div>
-    );
-  }
+    </div>
+  );
+}

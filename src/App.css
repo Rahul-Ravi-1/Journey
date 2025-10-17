@@ -93,3 +93,48 @@ html, body, #root {
   0%, 100% { opacity: 1; }
   50% { opacity: 0; }
 }
+
+/* Give the dashboard safe space above the fixed BottomNav */
+.dashboard-screen,
+.xp-container {
+  padding: 16px;
+  padding-bottom: 96px; /* room for BottomNav */
+}
+
+/* Grid order: top quests, middle windmill (big), bottom stats */
+.xp-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: 1fr;
+  grid-template-areas:
+    "quests"
+    "windmill"
+    "level";
+}
+
+/* Panel area hooks */
+.panel-quests   { grid-area: quests; }
+.panel-windmill { grid-area: windmill; }
+.panel-level    { grid-area: level; }
+
+/* Big hero for the windmill in the middle */
+.panel-windmill .panel-body,
+.windmill-hero {
+  min-height: clamp(280px, 55vh, 680px); /* fills the middle of the screen */
+  display: grid;
+  place-items: center;
+}
+
+/* Keep the same vertical order on wide screens (intentional) */
+@media (min-width: 960px) {
+  .xp-grid {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "quests"
+      "windmill"
+      "stats";
+  }
+}
+
+/* Optional: tidy panel spacing */
+.panel .panel-body > *:last-child { margin-bottom: 0; }

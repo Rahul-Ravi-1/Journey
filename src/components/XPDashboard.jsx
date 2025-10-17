@@ -1,14 +1,20 @@
 import { useState } from "react";
-import Windmill from "./Windmill"; // ← if Windmill.jsx is in the same /components folder
+import Windmill from "./Windmill";
+import Panel from "./Panel";
+import { useQuestStore } from "../store/useQuestStore";
 
-function XPDashboard() {
+export default function XPDashboard() {
+  console.log(useQuestStore.getState().quests);
   // XP & Level
   const [xp, setXP] = useState(0);
   const [level, setLevel] = useState(1);
   const XP_PER_LEVEL = 100;
 
-  // Momentum (local for now — we’ll move to Zustand next)
+  // Momentum
   const [momentum, setMomentum] = useState(42);
+
+  const main = useQuestStore((s) => s.quests.main);
+  const active = main.filter((q) => !q.completed).slice(0, 5);
 
   const gainXP = (amount) => {
     const newXP = xp + amount;
@@ -21,47 +27,113 @@ function XPDashboard() {
   };
 
   return (
-    <div
-      style={{
-
-        padding: "20px",  
-        color: "white",
-      }}
-    >
-      {/* Header: Level + Momentum readout */}
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
-        <div
-          style={{
-            display: "inline-block",
-            padding: "8px 16px",
-            background: "rgba(255,255,255,0.1)",
-            border: "1px solid rgba(255,255,255,0.2)",
-            borderRadius: "12px",
-            fontFamily: "'Press Start 2P', monospace",
-            fontSize: "12px",
-          }}
+    <div className="xp-container" style={{ color: "white" }}>
+      <div className="xp-grid">
+        {/* TOP: TODAY'S QUESTS */}
+        <Panel
+          title="TODAY'S QUESTS"
+          className="panel-quests"
         >
-          Lv {level}
-        </div>
-        <div style={{ fontFamily: "VT323, monospace", color: "#94A3B8", fontSize: 18 }}>
-          Momentum: {momentum}
-        </div>
-      </div>
+          {active.length === 0 ? (
+  <div style={{ opacity: 0.7, fontFamily: "VT323, monospace" }}>
+    No active main quests.
+  </div>
+) : (
+  <ul
+  style={{
+    margin: 0,
+    paddingLeft: 0,
+    listStyle: "none",
+    lineHeight: 1.6,
+    fontFamily: "VT323, monospace",
+  }}
+>
+  {active.map((q) => (
+    <li key={q.id}>{q.text}</li>
+  ))}
+</ul>
 
-      {/* Grid: XP bar + Windmill */}
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 200px", gap: 20 }}>
-        {/* XP column */}
-        <div>
+)}
+
+        </Panel>
+
+        {/* MIDDLE: BIG WINDMILL HERO */}
+        <Panel
+          title="MOMENTUM"
+          className="panel-windmill"
+          right={
+            <div style={{ display: "flex", gap: 6 }}>
+              <button
+                onClick={() => setMomentum((m) => Math.min(100, m + 5))}
+                style={{
+                  padding: "6px 10px",
+                  borderRadius: 10,
+                  background: "rgba(110,231,245,0.15)",
+                  border: "1px solid rgba(110,231,245,0.4)",
+                  color: "white",
+                  cursor: "pointer",
+                }}
+              >
+                +5
+              </button>
+              <button
+                onClick={() => setMomentum((m) => Math.max(0, m - 5))}
+                style={{
+                  padding: "6px 10px",
+                  borderRadius: 10,
+                  background: "rgba(110,231,245,0.15)",
+                  border: "1px solid rgba(110,231,245,0.4)",
+                  color: "white",
+                  cursor: "pointer",
+                }}
+              >
+                -5
+              </button>
+            </div>
+          }
+        >
+          <div className="windmill-hero">
+            <Windmill momentum={momentum} size={200} />
+          </div>
+        </Panel>
+
+        {/* BOTTOM: STATS */}
+        <Panel
+          title="STATS"
+          className="panel-level"
+          right={
+            <button
+              aria-label="Gain 10 XP"
+              onClick={() => gainXP(10)}
+              style={{
+                padding: "8px 12px",
+                borderRadius: 10,
+                background: "linear-gradient(90deg, #6EE7F5, #3B82F6)",
+                border: "none",
+                color: "#000",
+                fontWeight: "bold",
+                cursor: "pointer",
+              }}
+            >
+              +10 XP
+            </button>
+          }
+        >
           <div
             style={{
               backgroundColor: "rgba(255,255,255,0.1)",
               width: "100%",
-              height: "24px",
-              borderRadius: "12px",
+              height: 24,
+              borderRadius: 12,
               overflow: "hidden",
-              margin: "12px 0",
               border: "1px solid rgba(255,255,255,0.2)",
+              marginBottom: 8,
             }}
+            role="progressbar"
+            aria-valuemin={0}
+            aria-valuemax={XP_PER_LEVEL}
+            aria-valuenow={xp}
+            aria-label="Experience bar"
           >
             <div
               style={{
@@ -72,63 +144,12 @@ function XPDashboard() {
               }}
             />
           </div>
-
-          <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-            <p style={{ margin: 0, fontFamily: "VT323, monospace" }}>
-              XP: {xp} / {XP_PER_LEVEL}
-            </p>
-            <button
-              onClick={() => gainXP(10)}
-              style={{
-                padding: "10px 16px",
-                borderRadius: "12px",
-                background: "linear-gradient(90deg, #6EE7F5, #3B82F6)",
-                border: "none",
-                color: "#000",
-                fontWeight: "bold",
-                cursor: "pointer",
-              }}
-            >
-              Gain 10 XP
-            </button>
+          <div style={{ display: "flex", justifyContent: "space-between", fontFamily: "VT323, monospace" }}>
+            <span>XP: {xp} / {XP_PER_LEVEL}</span>
+            <span>{Math.round((xp / XP_PER_LEVEL) * 100)}%</span>
           </div>
-        </div>
-
-        {/* Windmill column */}
-        <div style={{ display: "grid", placeItems: "center" }}>
-          <Windmill momentum={momentum} size={160} />
-          <div style={{ display: "flex", gap: 8, marginTop: 8 }}>
-            <button
-              onClick={() => setMomentum((m) => Math.min(100, m + 5))}
-              style={{
-                padding: "6px 10px",
-                borderRadius: "10px",
-                background: "rgba(110,231,245,0.15)",
-                border: "1px solid rgba(110,231,245,0.4)",
-                color: "white",
-                cursor: "pointer",
-              }}
-            >
-              +5
-            </button>
-            <button
-              onClick={() => setMomentum((m) => Math.max(0, m - 5))}
-              style={{
-                padding: "6px 10px",
-                borderRadius: "10px",
-                background: "rgba(110,231,245,0.15)",
-                border: "1px solid rgba(110,231,245,0.4)",
-                color: "white",
-                cursor: "pointer",
-              }}
-            >
-              -5
-            </button>
-          </div>
-        </div>
+        </Panel>
       </div>
     </div>
   );
 }
-
-export default XPDashboard;

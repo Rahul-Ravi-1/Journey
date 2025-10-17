@@ -11,21 +11,21 @@ export default function BottomNav({ screen, setScreen }) {
         </button>
   
         <button
-          className={`nav-item ${screen === "journal" ? "active" : ""}`}
-          onClick={() => setScreen("journal")}
-          aria-label="Journal"
-          title="Journal"
-        >
-          📖
-        </button>
-  
-        <button
           className={`nav-item ${screen === "quests" ? "active" : ""}`}
           onClick={() => setScreen("quests")}
           aria-label="Quests"
           title="Quests"
         >
           🗡
+        </button>
+
+        <button
+          className={`nav-item ${screen === "journal" ? "active" : ""}`}
+          onClick={() => setScreen("journal")}
+          aria-label="Journal"
+          title="Journal"
+        >
+          📖
         </button>
       </div>
     );
