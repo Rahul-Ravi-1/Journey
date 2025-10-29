@@ -62,6 +62,15 @@ export const useQuestStore = create(
           };
         });
       },
+      clearAll: (category) => {
+        set((state) => ({
+          quests: {
+            ...state.quests,
+            [category]: [],
+          },
+        }));
+      },
+
       clearAllQuests: () => {
         set(() => ({
           quests: { main: [], side: [], misc: [] },

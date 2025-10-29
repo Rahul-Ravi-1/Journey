@@ -96,59 +96,71 @@ export default function XPDashboard() {
             <Windmill momentum={momentum} size={200} />
           </div>
         </Panel>
+      </div>
 
-        {/* BOTTOM: STATS */}
-        <Panel
-          title="STATS"
-          className="panel-level"
-          right={
-            <button
-              aria-label="Gain 10 XP"
-              onClick={() => gainXP(10)}
-              style={{
-                padding: "8px 12px",
-                borderRadius: 10,
-                background: "linear-gradient(90deg, #6EE7F5, #3B82F6)",
-                border: "none",
-                color: "#000",
-                fontWeight: "bold",
-                cursor: "pointer",
-              }}
-            >
-              +10 XP
-            </button>
-          }
+      {/* FULL WIDTH XP BAR AT BOTTOM */}
+      <div className="xp-bar-container">
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
+          <h3 style={{ 
+            margin: 0, 
+            fontFamily: "'Press Start 2P', monospace", 
+            fontSize: 12, 
+            letterSpacing: 0.5 
+          }}>
+            LEVEL {level}
+          </h3>
+          <button
+            aria-label="Gain 10 XP"
+            onClick={() => gainXP(10)}
+            style={{
+              padding: "8px 12px",
+              borderRadius: 10,
+              background: "linear-gradient(90deg, #6EE7F5, #3B82F6)",
+              border: "none",
+              color: "#000",
+              fontWeight: "bold",
+              cursor: "pointer",
+            }}
+          >
+            +10 XP
+          </button>
+        </div>
+        
+        <div
+          style={{
+            backgroundColor: "rgba(255,255,255,0.1)",
+            width: "100%",
+            height: 32,
+            borderRadius: 16,
+            overflow: "hidden",
+            border: "1px solid rgba(255,255,255,0.2)",
+            marginBottom: 8,
+          }}
+          role="progressbar"
+          aria-valuemin={0}
+          aria-valuemax={XP_PER_LEVEL}
+          aria-valuenow={xp}
+          aria-label="Experience bar"
         >
           <div
             style={{
-              backgroundColor: "rgba(255,255,255,0.1)",
-              width: "100%",
-              height: 24,
-              borderRadius: 12,
-              overflow: "hidden",
-              border: "1px solid rgba(255,255,255,0.2)",
-              marginBottom: 8,
+              background: "linear-gradient(90deg, #6EE7F5, #3B82F6)",
+              width: `${(xp / XP_PER_LEVEL) * 100}%`,
+              height: "100%",
+              transition: "width 0.3s ease-out",
             }}
-            role="progressbar"
-            aria-valuemin={0}
-            aria-valuemax={XP_PER_LEVEL}
-            aria-valuenow={xp}
-            aria-label="Experience bar"
-          >
-            <div
-              style={{
-                background: "linear-gradient(90deg, #6EE7F5, #3B82F6)",
-                width: `${(xp / XP_PER_LEVEL) * 100}%`,
-                height: "100%",
-                transition: "width 0.3s ease-out",
-              }}
-            />
-          </div>
-          <div style={{ display: "flex", justifyContent: "space-between", fontFamily: "VT323, monospace" }}>
-            <span>XP: {xp} / {XP_PER_LEVEL}</span>
-            <span>{Math.round((xp / XP_PER_LEVEL) * 100)}%</span>
-          </div>
-        </Panel>
+          />
+        </div>
+        
+        <div style={{ 
+          display: "flex", 
+          justifyContent: "space-between", 
+          fontFamily: "VT323, monospace",
+          fontSize: 14
+        }}>
+          <span>XP: {xp} / {XP_PER_LEVEL}</span>
+          <span>{Math.round((xp / XP_PER_LEVEL) * 100)}%</span>
+        </div>
       </div>
     </div>
   );

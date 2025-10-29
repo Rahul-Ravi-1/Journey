@@ -9,7 +9,8 @@ export default function QuestPanel({ title, category }) {
   const items = useQuestStore((s) => s.quests[category] || []);
   const addQuest = useQuestStore((s) => s.addQuest);
   const toggleQuest = useQuestStore((s) => s.toggleQuest);
-  const clearCompleted = useQuestStore((s) => s.clearCompleted); // 🔥 new
+  const clearCompleted = useQuestStore((s) => s.clearCompleted);
+  const clearAll = useQuestStore((s) => s.clearAll);
 
   const remaining = useMemo(
     () => items.filter((q) => !q.completed).length,
